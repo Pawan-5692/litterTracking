@@ -33,6 +33,9 @@ app.use('/collector', restrictTo(['collector','admin']),collectorRoute);
 
 app.use('/admin',restrictTo(['admin']),adminRoute)
 
+app.get('/some',(req, res)=>{
+  return res.json("Dub Mar")
+})
 app.get('/signin',(req, res)=>{
   res.render('signin')
 })
