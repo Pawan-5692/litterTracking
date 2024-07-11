@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="/admin">Home</a></li>
+            <% if (locals.user) { %>
+                <li><a href="/admin/collectors">Collectors</a></li>
+                <li><a href="/admin/user">Users</a></li>
+                <li><a href="/admin/complain">Complains</a></li>
+                <li><a href="/admin/task">Tasks</a></li>
+                <li><a href="/admin/logout">Logout</a></li>
+            <% } else { %>
+                <li><a href="/signin">Signin</a></li>
+                <li><a href="/signup">Signup</a></li>
+            <% } %>
+        </ul>
+    </div>
+    <div>
+        <table>
+            <thead>
+                <th>Assigned To</th>
+                <th>Status</th>
+                <th>Date</th>
+            </thead>
+            <tr>
+                <% task.forEach(tasks => { %>
+                    <td><%= tasks.assignee %></td>
+                    <td><%= tasks.status %></td>
+                    <td><%= tasks.date %></td>
+                <% }) %>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

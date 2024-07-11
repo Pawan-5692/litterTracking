@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>Signin</title>
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/signin">Signin</a></li>
+            <li><a href="/signup">Signup</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <form action="/signin" method="post">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
+            <label for="role">Role:</label>
+            <select name="role" id="role" style="height: 40px;">
+                <option value="user">USER</option>
+                <option value="collector">COLLECTOR</option>
+            </select>
+            <button type="submit">Signin</button>
+        </form>
+    </div>
+</body>
+</html>

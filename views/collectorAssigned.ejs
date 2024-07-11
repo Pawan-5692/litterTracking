@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="/collector/home">Home</a></li>
+            <% if (locals.user) { %>
+                <li><a href="/collector/profile">Profile</a></li>
+                <li><a href="/collector/assigned">Tasks</a></li>
+                <li><a href="/collector/logout">Logout</a></li>
+                
+            <% } else { %>
+                <li><a href="/signin">Signin</a></li>
+                <li><a href="/signup">Signup</a></li>
+            <% } %>
+        </ul>
+    </div>
+    <% if (locals.user) { %>
+        <% user.forEach(users => { %>
+            Task:<%= users %>
+            <hr>
+        <% }) %>
+        
+    <% } %>
+</body>
+</html>

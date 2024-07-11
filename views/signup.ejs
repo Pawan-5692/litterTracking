@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>Signup</title>
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/signin">Signin</a></li>
+            <li><a href="/signup">Signup</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <h1>Signup</h1>
+        <form action="/signup" method="post">
+            <label for="name">Full Name:</label>
+            <input type="text" name="fullName" id="name" required>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
+            <label for="contact">Contact:</label>
+            <input type="tel" name="contact" id="contact" required>
+            <label for="role">Role:</label>
+            <select name="role" id="role" style="height: 40px;margin-bottom: 10px;">
+                <option value="user">USER</option>
+                <option value="collector">COLLECTOR</option>
+            </select>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

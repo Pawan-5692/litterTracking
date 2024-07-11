@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<style>
+    tr, th, td {
+        border: 1px solid black;
+    }
+</style>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="/admin">Home</a></li>
+            <% if (locals.user) { %>
+                <li><a href="/admin/collectors">Collectors</a></li>
+                <li><a href="/admin/user">Users</a></li>
+                <li><a href="/admin/complain">Complains</a></li>
+                <li><a href="/admin/task">Tasks</a></li>
+                <li><a href="/admin/logout">Logout</a></li>
+            <% } else { %>
+                <li><a href="/signin">Signin</a></li>
+                <li><a href="/signup">Signup</a></li>
+            <% } %>
+        </ul>
+    </div>
+
+    <div>
+        <h1>Complains</h1>
+        <table style="border: 1px solid black;">
+            <tr>
+                <th>Id</th>
+                <th>Complain</th>
+                <th>Location</th>
+                <th>Complain Date</th>
+                <th>Assign</th>
+            </tr>
+            <% for (var i = 0; i < locals.complain.length; i++) { %>
+                <% if (locals.complain[i].status === "pending") { %>
+                    <tr>
+                        <td><%= locals.complain[i]._id %></td>
+                        <td><%= locals.complain[i].complain %></td>
+                        <td>Latitude: <%= locals.complain[i].location[0].latitude %>, Longitude: <%= locals.complain[i].location[0].longitude %></td>
+                        <td><%= locals.complain[i].createdAt %></td>
+                        <td>
+                            <form action="/admin/assigned" method="post">
+                                <input type="hidden" name="complainId" value="<%= locals.complain[i]._id %>">
+                                <input type="hidden" name="collectorId" value="<%= locals.collectorId %>">
+                                <button type="submit" id="btn">Assign</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% } %>
+            <% } %>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>Home</title>
+</head>
+<body>
+    
+    <div class="navbar">
+        <ul>
+            <li><a href="/user/home">Home</a></li>
+            <% if (locals.user) { %>
+                <li><a href="/user/profile">Profile</a></li>
+                <li><a href="/user/logout">Logout</a></li>
+            <% } else { %>
+                <li><a href="/signin">Signin</a></li>
+                <li><a href="/signup">Signup</a></li>
+            <% } %>
+        </ul>
+    </div>
+    <h1>This is Home Page</h1>
+    <% if (locals.user) { %> 
+    <div class="container">
+        
+            <h1>Welcome to Garbage Management System</h1>
+        
+        <h2>Webcam Capture and Upload</h2>
+        
+        <h2>Complaints Regarding Garbage Collection</h2>
+        <a href="/user/capture"><Button>Click</Button></a>
+        
+        
+        
+    </div>
+    <% } %>
+</body>
+</html>

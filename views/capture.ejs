@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="/user/home">Home</a></li>
+            <% if (locals.user) { %>
+                <li><a href="/user/profile">Profile</a></li>
+                <li><a href="/user/logout">Logout</a></li>
+            <% } else { %>
+                <li><a href="/signin">Signin</a></li>
+                <li><a href="/signup">Signup</a></li>
+            <% } %>
+        </ul>
+    </div>
+    <div style="display: inline;">
+        <video id="video" width="500" height="480" autoplay style="display: inline;"></video>
+        <button id="capture">Capture</button>
+    </div>
+    <div style="display: inline;">
+        <canvas id="canvas" width="500" height="400"></canvas>
+    </div>
+    
+    <form action="/user/upload" method="post" id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="image" id="imageInput" style="display: none;">
+        
+        <div>
+            <h2>Write your complain</h2>
+            <input type="text" name="complain" id="complain" style="border: 1px solid black; margin-left:20px; margin-right: 20px; width: 1290px; height:100px">
+        </div>
+        <button type="submit">Upload</button>
+    </form>
+    
+</body>
+
+<script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const captureButton = document.getElementById('capture');
+    const uploadForm = document.getElementById('uploadForm');
+    const imageInput = document.getElementById('imageInput');
+    const complainInput = document.getElementById('complain');
+
+    // Detect if the device is a mobile device
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    // Set constraints for the video stream
+    const constraints = {
+        video: isMobile ? { facingMode: { exact: "environment" } } : true
+    };
+
+    // Access the user's webcam or back camera
+    navigator.mediaDevices.getUserMedia(constraints)
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(err => {
+            console.error("Error accessing camera: ", err);
+        });
+
+    // Capture the image from the video
+    captureButton.addEventListener('click', () => {
+        const context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(blob => {
+            const file = new File([blob], 'capture.png', { type: 'image/png' });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            imageInput.files = dataTransfer.files;
+        }, 'image/png');
+    });
+
+    // Handle the form submission
+    uploadForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(uploadForm);
+        const complainValue = complainInput.value.trim(); // Ensure complain is a string
+        formData.append('complain', complainValue);
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                
+                // Append location as JSON string
+                formData.append('location', JSON.stringify([{ latitude, longitude }]));
+
+                try {
+                    const response = await fetch('/user/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    if (response.ok) {
+                        const result = await response.json();
+                        alert(result.message);
+                    } else {
+                        alert('Upload failed');
+                    }
+                } catch (error) {
+                    console.log('Error uploading file:', error);
+                }
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    });
+</script>
+</html>

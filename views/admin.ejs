@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="/admin">Home</a></li>
+            <% if (locals.user) { %>
+                <li><a href="/admin/collectors">Collectors</a></li>
+                <li><a href="/admin/user">Users</a></li>
+                <li><a href="/admin/complain">Complains</a></li>
+                <li><a href="/admin/task">Tasks</a></li>
+                <li><a href="/admin/logout">Logout</a></li>
+            <% } else { %>
+                <li><a href="/signin">Signin</a></li>
+                <li><a href="/signup">Signup</a></li>
+            <% } %>
+        </ul>
+    </div>
+    <% if (locals.user) { %>
+        <% collectors.forEach(collector => { %>
+            Name: <%= collector.fullName %> <br>
+            <form action="/admin/assign" method="get">
+                <input type="hidden" name="collectorId" value="<%= collector._id %>">
+                <button type="submit" style="width: 150px;height: 30px; padding: 2px; border-radius: 50px;margin: 0px;">Assign a Task</button>
+            </form>
+            <hr>
+        <% }) %>
+    <% } %>
+</body>
+</html>
